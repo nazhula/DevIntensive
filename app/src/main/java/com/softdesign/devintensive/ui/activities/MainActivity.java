@@ -1,9 +1,14 @@
 package com.softdesign.devintensive.ui.activities;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
@@ -14,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softdesign.devintensive.R;
@@ -68,7 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
             setupToolbar();
-            //setupDrawer();
+            setupDrawer();
             loadUserInfoValue();
 
            // List<String> test = mDataManager.getPreferencesManager().loadUserProfileData();
@@ -150,7 +156,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             super.onSaveInstanceState(outState);
             Log.d(TAG, "onSaveInstanceState");
 
-            outState.putInt(ConstantManager.EDIT_MODE_KEY,mCurrentEditMode);
+            outState.putInt(ConstantManager.EDIT_MODE_KEY, mCurrentEditMode);
         }
 
 
@@ -162,6 +168,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
+
+
+    private void setupDrawer() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        setupDrawerHeader(navigationView, BitmapFactory.decodeResource(getResources(),
+                R.drawable.avatar), "Жуланова Наталья", "nazhula@mail.ru");
+    }
+
+        private void setupDrawerHeader(NavigationView parent, Bitmap user_avatar, String name, String email){
+          View view = parent.getHeaderView(0);
+           if (user_avatar != null) {
+              RoundedBitmapDrawable dr= RoundedBitmapDrawableFactory.create(getResources(), user_avatar);
+              dr.setCircular(true);
+              ImageView imageView = (ImageView)view.findViewById(R.id.user_avatar);
+              imageView.setImageDrawable(dr);
+           }
+           if (name != null){
+           TextView textView = (TextView)view.findViewById(R.id.user_name_txt);
+               textView.setText(name);
+           }
+           if (email != null){
+               TextView textView = (TextView)view.findViewById(R.id.user_email_txt);
+               textView.setText(email);
+           }
+            }
+
+
 
         //по кнопке back закрываем Navigation Drawer
         @Override
